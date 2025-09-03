@@ -1,0 +1,24 @@
+# example values
+
+indexing-settings:
+  sites:
+    - url: https://nikoartgallery.com
+      name: NikoArtGallery
+    - url: https://epafafjgperra.ru
+      name: Et-cetera
+    - url: https://playback.ru
+      name: Playback
+server:
+  port:8080
+spring:
+  datasource:
+    username: root
+    password: password
+    url: jdbc:mysql://localhost:3306/search_engine?useSSL=false&requireSSL=false&allowPublicKeyRetrieval=true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
