@@ -27,13 +27,6 @@ public class PageModel {
     @Column(columnDefinition = "MEDIUMTEXT", nullable = false)
     private String content;
 
-    /*@ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "Subscriptions",
-            joinColumns = {@JoinColumn (name = "course_id")},
-            inverseJoinColumns = {@JoinColumn(name = "student_id")}
-    )
-    private List<IndexModel> indexes;*/
-
     @OneToMany(mappedBy = "page", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IndexModel> indexes;
 }

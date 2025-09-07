@@ -6,54 +6,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import searchengine.dto.GeneralResponse;
 import searchengine.dto.statistics.StatisticsResponse;
-import searchengine.services.SiteService;
-import searchengine.services.StatisticsService;
+import searchengine.services.*;
 
 @RestController
 @RequestMapping("/api")
 public class ApiController {
 
     private final StatisticsService statisticsService;
-    private final SiteService siteService;
+    private final IndexService indexService;
+    private final SearchService searchService;
 
-    public ApiController(StatisticsService statisticsService, SiteService siteService) {
+    public ApiController(StatisticsService statisticsService, IndexService indexService, SearchService searchService) {
         this.statisticsService = statisticsService;
-        this.siteService = siteService;
+        this.indexService = indexService;
+        this.searchService = searchService;
     }
 
     @GetMapping("/statistics")
     public StatisticsResponse statistics() {
-        return statisticsService.getStatistics(siteService);
+        return statisticsService.getStatistics();
     }
 
     @GetMapping("/startIndexing")
     public GeneralResponse startIndexing() {
-        if (siteService.isIndexing()) {
-            return new GeneralResponse(false,"Индексация уже запущена");
-        }
-        else {
-            new Thread(siteService::startIndexing).start();
-            return new GeneralResponse(true);
-        }
+        return indexService.startIndexing();
     }
 
     @GetMapping("/stopIndexing")
     public GeneralResponse stopIndexing() {
-        if (siteService.isIndexing()) {
-            siteService.stopIndexing();
-            return new GeneralResponse(true);
-        }
-        else return new GeneralResponse(false,"Индексация не запущена");
+        return indexService.stopIndexing();
     }
 
     @PostMapping("/indexPage")
     public GeneralResponse indexPage(String url) {
-        if (siteService.indexPage(url)) return new GeneralResponse(true);
-        return new GeneralResponse(false,"Данная страница находится за пределами сайтов, указанных в конфигурационном файле");
+        return indexService.indexPage(url);
     }
 
     @GetMapping("/search")
-    public Object search(String query, String site) {
-        return siteService.search(query, site);
+    public Object search(String query, String site, int offset, int limit) {
+        return searchService.search(query, site, offset, limit);
     }
 }

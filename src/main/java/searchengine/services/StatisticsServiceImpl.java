@@ -7,6 +7,9 @@ import searchengine.dto.statistics.StatisticsData;
 import searchengine.dto.statistics.StatisticsResponse;
 import searchengine.dto.statistics.TotalStatistics;
 import searchengine.model.SiteModel;
+import searchengine.repositories.LemmaRepository;
+import searchengine.repositories.PageRepository;
+import searchengine.repositories.SiteRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +17,18 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class StatisticsServiceImpl implements StatisticsService {
+    private final SiteRepository siteRepository;
+    private final PageRepository pageRepository;
+    private final LemmaRepository lemmaRepository;
 
     @Override
-    public StatisticsResponse getStatistics(SiteService siteService) {
+    public StatisticsResponse getStatistics() {
         StatisticsResponse response = new StatisticsResponse();
         StatisticsData statistics = new StatisticsData();
         TotalStatistics total = new TotalStatistics();
         List<DetailedStatisticsItem> detailed = new ArrayList<>();
 
-        List<SiteModel> sites = siteService.getSiteRepository().findAll();
+        List<SiteModel> sites = siteRepository.findAll();
         for (SiteModel site : sites) {
             DetailedStatisticsItem detailedItem = new DetailedStatisticsItem();
             detailedItem.setUrl(site.getUrl());
@@ -30,10 +36,12 @@ public class StatisticsServiceImpl implements StatisticsService {
             detailedItem.setStatus(site.getStatus().toString());
             detailedItem.setStatusTime(site.getStatusTime().getTime());
             detailedItem.setError(site.getLastError());
-            if (detailedItem.getError() == null) detailedItem.setError("");
-            detailedItem.setPages(siteService.getPageRepository().countBySiteId(site.getId()));
+            if (detailedItem.getError() == null) {
+                detailedItem.setError("");
+            }
+            detailedItem.setPages(pageRepository.countBySiteId(site.getId()));
             total.setPages(total.getPages() + detailedItem.getPages());
-            detailedItem.setLemmas(siteService.getLemmaRepository().countBySiteId(site.getId()));
+            detailedItem.setLemmas(lemmaRepository.countBySiteId(site.getId()));
             total.setLemmas(total.getLemmas() + detailedItem.getLemmas());
             detailed.add(detailedItem);
         }

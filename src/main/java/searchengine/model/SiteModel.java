@@ -36,8 +36,4 @@ public class SiteModel {
 
     @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LemmaModel> lemmas;
-
-    public String toString() {
-        return id + ". " + name + ", " + url + ", " + status + ", " + statusTime + ", " + lastError + ", Pages: " + pages.size() + ", Lemmas: " + lemmas.size();
-    }
 }

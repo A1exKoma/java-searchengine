@@ -26,8 +26,4 @@ public class LemmaModel {
 
     @OneToMany(mappedBy = "lemma", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<IndexModel> indexes;
-
-    public String toString() {
-        return id + ". " + lemma + ", frequency:" + frequency + ", site_id:" + site.getId();
-    }
 }

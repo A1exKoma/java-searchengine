@@ -4,8 +4,8 @@ indexing-settings:
   sites:
     - url: https://nikoartgallery.com
       name: NikoArtGallery
-    - url: https://epafafjgperra.ru
-      name: Et-cetera
+    - url: https://et-cetera.ru
+      name: Et-Cetera
     - url: https://playback.ru
       name: Playback
 server:

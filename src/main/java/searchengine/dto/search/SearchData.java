@@ -10,8 +10,4 @@ public class SearchData {
     String title;
     String snippet;
     double relevance;
-
-    public String toString() {
-        return siteName + " " + site + url + " : " + relevance + "\n" + title;
-    }
 }
