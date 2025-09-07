@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LemmasList {
-    private static final Logger logger = LoggerFactory.getLogger(IndexingURL.class);
+    private static final Logger logger = LoggerFactory.getLogger(LemmasList.class);
     public static HashMap<String, Integer> getLemmas(String text) {
         String[] words = text.replaceAll("[\\p{P}\\p{N}+]", " ").toLowerCase().split(" ");
         logger.info("{}", words.length);
